@@ -17,6 +17,8 @@ Anybody who wishes to run the python script needs to install the following depen
 
 The code was frozen and executable generated using cxfreeze.
 
+The compiled program is currently available only for Windows. Working on getting a MacOS version out. In the meantime you can run the python script after installing all dependencies on any platform.
+
 In case you face any issues while running the app or updating it to suit your preferences, please feel free to reach out.
 
 Hope you all find vaccine slots at the earliest.
