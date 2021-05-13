@@ -23,7 +23,18 @@ class CowinSlots(QtWidgets.QWidget):
         self.window.districtSelect.setEnabled(True)
         self.window.stateSelect.setEnabled(True)
         self.window.stopButton.setEnabled(False)
-        self.timer = QtCore.QTimer(self, interval=30*60*1000, timeout=self.check_slots)
+        self.timer = QtCore.QTimer(self, interval=5 * 60 * 1000, timeout=self.check_slots)
+        icon = QtGui.QIcon("images/icon.png")
+        self.tray_icon = QtWidgets.QSystemTrayIcon(icon)
+        self.tray_icon.setIcon(icon)
+        self.tray_icon.setVisible(True)
+
+        self.menu = QtWidgets.QMenu()
+
+        self.quit_action = QtGui.QAction("Quit")
+        self.quit_action.triggered.connect(app.quit)
+        self.menu.addAction(self.quit_action)
+        self.tray_icon.setContextMenu(self.menu)
 
     def initialize_signals(self):
         self.window.stateSelect.currentIndexChanged.connect(self.state_selected)
@@ -44,8 +55,8 @@ class CowinSlots(QtWidgets.QWidget):
 
     def populate_states(self):
         response = requests.get('https://cdn-api.co-vin.in/api/v2/admin/location/states',
-                                    headers={
-                                        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}).json()
+                                headers={
+                                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}).json()
         for state in response['states']:
             states_dict[state['state_name']] = state['state_id']
             self.window.stateSelect.addItem(state['state_name'])
@@ -64,8 +75,8 @@ class CowinSlots(QtWidgets.QWidget):
         self.window.districtSelect.addItem('Select District')
         state = states_dict[self.window.stateSelect.currentText()]
         response = requests.get(f'https://cdn-api.co-vin.in/api/v2/admin/location/districts/{state}',
-                                    headers={
-                                        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}).json()
+                                headers={
+                                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}).json()
         for district in response['districts']:
             district_dict[district['district_name']] = district['district_id']
             self.window.districtSelect.addItem(district['district_name'])
@@ -128,12 +139,16 @@ class CowinSlots(QtWidgets.QWidget):
             palette = self.window.label.palette()
             palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.WindowText, QtGui.QColor('green'))
             self.window.label.setPalette(palette)
-            self.dialog = QtWidgets.QMessageBox()
-            self.dialog.setIcon(QtWidgets.QMessageBox.Information)
-            self.dialog.setText('Vaccine Slots Found!! Please check the app for more details.')
-            self.dialog.setWindowTitle('Vaccine Slots Found')
-            self.dialog.show()
-            self.dialog.activateWindow()
+            # self.dialog = QtWidgets.QMessageBox()
+            # self.dialog.setIcon(QtWidgets.QMessageBox.Information)
+            # self.dialog.setText('Vaccine Slots Found!! Please check the app for more details.')
+            # self.dialog.setWindowTitle('Vaccine Slots Found')
+            # self.dialog.show()
+            # self.dialog.activateWindow()
+
+            self.tray_icon.showMessage('Vaccine Slots Found',
+                                  'Vaccine Slots Found!! Please check the app for more details.',
+                                  QtWidgets.QSystemTrayIcon.Information, 1000)
 
 
 if __name__ == "__main__":
