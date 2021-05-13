@@ -1,5 +1,5 @@
 # cowinSlotTracker
-This is a simple console application that will automatically check slots for you for vaccination on the Cowin portal. Feel free to take the code. Planning to add a UI in future so more people are able to use it.
+This is a simple application that will automatically check slots for you for vaccination on the Cowin portal. Feel free to take the code.
 
 The dev folder contains the code for the application.
 
@@ -16,6 +16,8 @@ Anybody who wishes to run the python script needs to install the following depen
 2. requests
 
 The code was frozen and executable generated using cxfreeze.
+
+The compiled program is currently available only for Windows. Working on getting a MacOS version out. In the meantime you can run the python script after installing all dependencies on any platform.
 
 In case you face any issues while running the app or updating it to suit your preferences, please feel free to reach out.
 
