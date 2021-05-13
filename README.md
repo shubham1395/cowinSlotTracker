@@ -15,7 +15,7 @@ Anybody who wishes to run the python script needs to install the following depen
 1. PySide6
 2. requests
 
-The code was frozen and executabble generated using cxfreeze.
+The code was frozen and executable generated using cxfreeze.
 
 In case you face any issues while running the app or updating it to suit your preferences, please feel free to reach out.
 
